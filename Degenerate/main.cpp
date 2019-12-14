@@ -447,7 +447,7 @@ int main(void)
 				object->velocity.x = p.velX;
 				object->velocity.z = p.velZ;
 				object->isVisible = true;
-				object->setOrientation(glm::vec3(0.0f, p.rot, 0.0f));
+				object->updateOrientation(glm::vec3(0.0f, p.rot, 0.0f));
 			}
 		}
 
