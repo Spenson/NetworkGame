@@ -40,7 +40,7 @@ PlayerState* AddPlayerToGame()
 
 	gs.players.push_back(newPlayer);
 
-	return &(gs.players[gs.players.size()-1]);
+	return &(gs.players[gs.players.size() - 1]);
 }
 
 Player* GetPlayerByPort(unsigned short port, struct sockaddr_in si_other)
@@ -49,7 +49,10 @@ Player* GetPlayerByPort(unsigned short port, struct sockaddr_in si_other)
 	for (int i = 0; i < mPlayers.size(); i++)
 	{
 		if (mPlayers[i].port == port)
+		{
+			printf("port:%d x,z:(%f,%f) rot:(%f) Get Player\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
 			return &(mPlayers[i]);
+		}
 	}
 
 	// Otherwise create a new player, and return that one!
@@ -216,7 +219,7 @@ void Server::UpdatePlayers(void)
 			dir *= (5.0f * elapsed_secs_since_update);
 			mPlayers[i].state->posX += dir.x;
 			mPlayers[i].state->posZ += dir.z;
-			printf("port:%d x,z:(%d,%d) rot:(%d) FORWARDS!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
+			printf("port:%d x,z:(%f,%f) rot:(%f) FORWARDS!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
 		}
 		else if (mPlayers[i].input.input == UserInputState::BACKWARD)
 		{
@@ -226,7 +229,7 @@ void Server::UpdatePlayers(void)
 			dir *= (5.0f * elapsed_secs_since_update);
 			mPlayers[i].state->posX -= dir.x;
 			mPlayers[i].state->posZ -= dir.z;
-			printf("port:%d x,z:(%d,%d) rot:(%d) BACKWARDS!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
+			printf("port:%d x,z:(%f,%f) rot:(%f) BACKWARDS!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
 		}
 		else
 		{
@@ -237,16 +240,16 @@ void Server::UpdatePlayers(void)
 		if (mPlayers[i].input.input == UserInputState::TURN_LEFT)
 		{
 			mPlayers[i].state->rot += (5.0f * elapsed_secs_since_update);
-			printf("port:%d x,z:(%d,%d) rot:(%d) LEFT!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
+			printf("port:%d x,z:(%f,%f) rot:(%f) LEFT!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
 		}
 		else if (mPlayers[i].input.input == UserInputState::TURN_RIGHT)
 		{
 			mPlayers[i].state->rot -= (5.0f * elapsed_secs_since_update);
-			printf("port:%d x,z:(%d,%d) rot:(%d) RIGHT!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
+			printf("port:%d x,z:(%f,%f) rot:(%f) RIGHT!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
 		}
 		else if (mPlayers[i].input.input == UserInputState::FIRE)
 		{
-			printf("port:%d x,z:(%d,%d) rot:(%d) SHOOOOOT!!!!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
+			printf("port:%d x,z:(%f,%f) rot:(%f) SHOOOOOT!!!!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
 
 			glm::vec4 dir = (glm::mat4(glm::quat(glm::radians(glm::vec3(0, mPlayers[i].state->rot, 0)))) * glm::vec4(0, 0, 1, 1.0f));
 
@@ -281,7 +284,7 @@ void Server::BroadcastUpdate(void)
 		buff[1] = i >> 8;
 		buff[2] = i >> 16;
 		buff[3] = i >> 24;
-
+		printf("port:%d x,z:(%f,%f) rot:(%f) Broadcast\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
 		int result = sendto(mListenSocket, (char*)&buff[0], buff.size(), 0, (struct sockaddr*) & (mPlayers[i].si_other), sizeof(mPlayers[i].si_other));
 	}
 
