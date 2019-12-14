@@ -129,12 +129,12 @@ void TestLoad(cVAOManager* pTheVAOManager, cModelLoader* pTheModelLoader, GLuint
 
 	cGameObject* ship = new cGameObject();
 	ship->diffuseColour = glm::vec4(1.0f,0.0f,0.0f,1.0f);
+	ship->friendlyName = "Ship1";
 	ship->debugColour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
 	ship->setOrientation(glm::vec3(0.0f, 0.0f, 0.0f));
 	ship->positionXYZ = glm::vec3(0.0f, 0.0f, 0.0f);
 	ship->scale = 5.f;
 	ship->meshName = "Ship";
-	ship->friendlyName = "Ship1";
 	ship->useDiffuse = true;
 	ship->isVisible = false;
 	ship->isWireframe = false;
@@ -143,18 +143,45 @@ void TestLoad(cVAOManager* pTheVAOManager, cModelLoader* pTheModelLoader, GLuint
 
 
 	ship = new cGameObject();
-	glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+	ship->diffuseColour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
 	ship->friendlyName = "Ship2";
+	ship->debugColour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+	ship->setOrientation(glm::vec3(0.0f, 0.0f, 0.0f));
+	ship->positionXYZ = glm::vec3(0.0f, 0.0f, 0.0f);
+	ship->scale = 5.f;
+	ship->meshName = "Ship";
+	ship->useDiffuse = true;
+	ship->isVisible = false;
+	ship->isWireframe = false;
+	ship->inverseMass = 1.0f;
 	vec_pGameObjects.push_back(ship);
 
 	ship = new cGameObject();
-	glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+	ship->diffuseColour = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
 	ship->friendlyName = "Ship3";
+	ship->debugColour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+	ship->setOrientation(glm::vec3(0.0f, 0.0f, 0.0f));
+	ship->positionXYZ = glm::vec3(0.0f, 0.0f, 0.0f);
+	ship->scale = 5.f;
+	ship->meshName = "Ship";
+	ship->useDiffuse = true;
+	ship->isVisible = false;
+	ship->isWireframe = false;
+	ship->inverseMass = 1.0f;
 	vec_pGameObjects.push_back(ship);
 
 	ship = new cGameObject();
-	glm::vec4(5.0f, 5.0f, 0.0f, 1.0f);
+	ship->diffuseColour = glm::vec4(5.0f, 5.0f, 0.0f, 1.0f);
 	ship->friendlyName = "Ship4";
+	ship->debugColour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+	ship->setOrientation(glm::vec3(0.0f, 0.0f, 0.0f));
+	ship->positionXYZ = glm::vec3(0.0f, 0.0f, 0.0f);
+	ship->scale = 5.f;
+	ship->meshName = "Ship";
+	ship->useDiffuse = true;
+	ship->isVisible = false;
+	ship->isWireframe = false;
+	ship->inverseMass = 1.0f;
 	vec_pGameObjects.push_back(ship);
 
 	//TODO: Load basic Rquired Models

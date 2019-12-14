@@ -213,6 +213,7 @@ void Server::UpdatePlayers(void)
 {
 	for (unsigned int i = 0; i < numPlayersConnected; i++)
 	{
+		//printf("Index:%d player:%d input:%d state:%d\n", i, mPlayers[i].port, mPlayers[i].input.input, mPlayers[i].state->state);
 		if (mPlayers[i].input.input == UserInputState::FORWARD)
 		{
 			glm::vec4 dir = (glm::mat4(glm::quat(glm::vec3(0, mPlayers[i].state->rot, 0))) * glm::vec4(0, 0, 1, 1.0f));

@@ -298,9 +298,9 @@ int main(void)
 		//Frame Rate in title bar
 		std::stringstream ssTitle;
 		ssTitle << "Degenerate | " << 1.0 / avgDeltaTimeThingy.getAverage() << " (" << 1.0 / deltaTime << " | " << deltaTime << ")"
-			<< " Pos: (" << pFindObjectByFriendlyName("Ship1")->positionXYZ.x << ", "
-			<< pFindObjectByFriendlyName("Ship1")->positionXYZ.y << ", "
-			<< pFindObjectByFriendlyName("Ship1")->positionXYZ.z << ")"
+			<< " Pos: (" << pFindObjectByFriendlyName("Ship2")->positionXYZ.x << ", "
+			<< pFindObjectByFriendlyName("Ship2")->positionXYZ.y << ", "
+			<< pFindObjectByFriendlyName("Ship2")->positionXYZ.z << ")"
 			/*<< " Rot: (" << glm::degrees(pFindObjectByFriendlyName("Ship")->getEulerAngle().x) << ", "
 			<< glm::degrees(pFindObjectByFriendlyName("Ship")->getEulerAngle().y) << ", "
 			<< glm::degrees(pFindObjectByFriendlyName("Ship")->getEulerAngle().z) << ")"*/;
@@ -435,13 +435,13 @@ int main(void)
 		ShipControls(window, deltaTime);
 		if (::g_client.Update())
 		{
-
 			GameSceneState* temp = nullptr;
 			g_client.getGameState(temp);
+			tpc.SetPlayerObject(pFindObjectByFriendlyName("Ship" + std::to_string(temp->id + 1)));
 			for (int i = 0; i < temp->players.size(); i++)
 			{
 				PlayerState p = temp->players[i];
-				cGameObject* object = pFindObjectByFriendlyName("Ship" + std::to_string(temp->id + 1));
+				cGameObject* object = pFindObjectByFriendlyName("Ship" + std::to_string(i + 1));
 				object->positionXYZ.x = p.posX;
 				object->positionXYZ.z = p.posZ;
 				object->velocity.x = p.velX;
