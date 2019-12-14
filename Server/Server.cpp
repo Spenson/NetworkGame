@@ -253,6 +253,7 @@ void Server::UpdatePlayers(void)
 
 			glm::vec4 dir = (glm::mat4(glm::quat(glm::radians(glm::vec3(0, mPlayers[i].state->rot, 0)))) * glm::vec4(0, 0, 1, 1.0f));
 
+
 		}
 	}
 }
@@ -261,7 +262,7 @@ void Server::BroadcastUpdate(void)
 {
 	// create our data to send, then send the same data to all players
 	const int DEFAULT_BUFLEN = 512;
-	char* buffer = '\0';
+	//char* buffer = '\0';
 	//memset(buffer, '\0', DEFAULT_BUFLEN);
 
 	//memcpy(&(buffer[0]), &numPlayersConnected, sizeof(unsigned int));

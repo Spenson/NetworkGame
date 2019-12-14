@@ -184,6 +184,66 @@ void TestLoad(cVAOManager* pTheVAOManager, cModelLoader* pTheModelLoader, GLuint
 	ship->inverseMass = 1.0f;
 	vec_pGameObjects.push_back(ship);
 
+
+	// Bullets
+	cGameObject* bullet = new cGameObject();
+	bullet->diffuseColour = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+	bullet->friendlyName = "Bullet1";
+	bullet->debugColour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+	bullet->setOrientation(glm::vec3(0.0f, 0.0f, 0.0f));
+	bullet->positionXYZ = glm::vec3(0.0f, 0.0f, 0.0f);
+	bullet->scale = 5.f;
+	bullet->meshName = "sphere_hires";
+	bullet->useDiffuse = true;
+	bullet->isVisible = false;
+	bullet->isWireframe = false;
+	bullet->inverseMass = 1.0f;
+	vec_pGameObjects.push_back(bullet);
+
+
+	bullet = new cGameObject();
+	bullet->diffuseColour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+	bullet->friendlyName = "Bullet2";
+	bullet->debugColour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+	bullet->setOrientation(glm::vec3(0.0f, 0.0f, 0.0f));
+	bullet->positionXYZ = glm::vec3(0.0f, 0.0f, 0.0f);
+	bullet->scale = 5.f;
+	bullet->meshName = "sphere_hires";
+	bullet->useDiffuse = true;
+	bullet->isVisible = false;
+	bullet->isWireframe = false;
+	bullet->inverseMass = 1.0f;
+	vec_pGameObjects.push_back(bullet);
+
+	bullet = new cGameObject();
+	bullet->diffuseColour = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+	bullet->friendlyName = "Bullet3";
+	bullet->debugColour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+	bullet->setOrientation(glm::vec3(0.0f, 0.0f, 0.0f));
+	bullet->positionXYZ = glm::vec3(0.0f, 0.0f, 0.0f);
+	bullet->scale = 5.f;
+	bullet->meshName = "sphere_hires";
+	bullet->useDiffuse = true;
+	bullet->isVisible = false;
+	bullet->isWireframe = false;
+	bullet->inverseMass = 1.0f;
+	vec_pGameObjects.push_back(bullet);
+
+	bullet = new cGameObject();
+	bullet->diffuseColour = glm::vec4(5.0f, 5.0f, 0.0f, 1.0f);
+	bullet->friendlyName = "Bullet4";
+	bullet->debugColour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+	bullet->setOrientation(glm::vec3(0.0f, 0.0f, 0.0f));
+	bullet->positionXYZ = glm::vec3(0.0f, 0.0f, 0.0f);
+	bullet->scale = 5.f;
+	bullet->meshName = "sphere_hires";
+	bullet->useDiffuse = true;
+	bullet->isVisible = false;
+	bullet->isWireframe = false;
+	bullet->inverseMass = 1.0f;
+	vec_pGameObjects.push_back(bullet);
+
+
 	//TODO: Load basic Rquired Models
 
 	::g_pDebugSphere = new cGameObject();

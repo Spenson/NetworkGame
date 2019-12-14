@@ -543,6 +543,13 @@ void ShipControls(GLFWwindow* window, double deltaTime)
 		uis.input = UserInputState::TURN_RIGHT;
 	}
 
+
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) 
+	{
+		uis.input = UserInputState::FIRE;
+	}
+
+
 	cur += deltaTime;
 	if (cur >= UPDATE_FREQ)
 	{
