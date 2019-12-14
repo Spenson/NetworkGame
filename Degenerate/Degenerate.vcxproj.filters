@@ -27,7 +27,7 @@
       <Filter>Texture</Filter>
     </ClCompile>
     <ClCompile Include="..\dependencies\src\glad.c">
-      <Filter>glad</Filter>
+      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="ShaderManager\cShader.cpp">
       <Filter>ShaderManager</Filter>
@@ -130,6 +130,9 @@
     </ClCompile>
     <ClCompile Include="Client.cpp">
       <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\src\tinyxml2.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -252,13 +255,13 @@
     <ClInclude Include="Client.h">
       <Filter>Client</Filter>
     </ClInclude>
+    <ClInclude Include="..\dependencies\src\tinyxml2.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DebugRenderer">
       <UniqueIdentifier>{0712cb83-17e5-411e-93c8-01a7fe758260}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="glad">
-      <UniqueIdentifier>{7d1418fb-bc87-464d-92d6-547958264f82}</UniqueIdentifier>
     </Filter>
     <Filter Include="ShaderManager">
       <UniqueIdentifier>{09e56bc5-c02d-42ea-83eb-002dd6069e70}</UniqueIdentifier>
@@ -316,6 +319,9 @@
     </Filter>
     <Filter Include="Client">
       <UniqueIdentifier>{414265a4-a0c8-4ca7-8eca-33dee57d9202}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{7d1418fb-bc87-464d-92d6-547958264f82}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
