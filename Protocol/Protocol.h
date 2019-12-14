@@ -42,7 +42,12 @@ public:
 class BulletState
 {
 public:
-	int state;
+	enum State 
+	{
+		LOADED, SHOT
+	};
+
+	State state;
 	float posX, posZ;
 	float velX, velZ;
 	void Serialize(std::vector<uint8_t>& buff);

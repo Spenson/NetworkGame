@@ -461,7 +461,7 @@ int main(void)
 				object->isVisible = true;
 				object->scale = 0.5f;
 
-				if (b.state == 0) 					
+				if (b.state == BulletState::LOADED) 					
 				{
 					object->isVisible = false;
 				}

@@ -142,7 +142,8 @@ void BulletState::Serialize(std::vector<uint8_t>& buff)
 
 void BulletState::Deserialize(std::vector<uint8_t> buff)
 {
-	state = buff[0] | buff[1] << 8 | buff[2] << 16 | buff[3] << 24;
+	//state = buff[0] | buff[1] << 8 | buff[2] << 16 | buff[3] << 24;
+	state = (State)(buff[0] | buff[1] << 8 | buff[2] << 16 | buff[3] << 24);
 
 	uint32_t temp = (buff[4] | buff[5] << 8 | buff[6] << 16 | buff[7] << 24);
 	posX = *reinterpret_cast<float*>(&temp);
@@ -156,7 +157,8 @@ void BulletState::Deserialize(std::vector<uint8_t> buff)
 
 void BulletState::Deserialize(char* buff)
 {
-	state = (uint8_t)buff[0] | (uint8_t)buff[1] << 8 | (uint8_t)buff[2] << 16 | (uint8_t)buff[3] << 24;
+	//state = (uint8_t)buff[0] | (uint8_t)buff[1] << 8 | (uint8_t)buff[2] << 16 | (uint8_t)buff[3] << 24;
+	state = (State)((uint8_t)buff[0] | (uint8_t)buff[1] << 8 | (uint8_t)buff[2] << 16 | (uint8_t)buff[3] << 24);
 
 	uint32_t temp = ((uint8_t)buff[4] | (uint8_t)buff[5] << 8 | (uint8_t)buff[6] << 16 | (uint8_t)buff[7] << 24);
 	posX = *reinterpret_cast<float*>(&temp);
@@ -179,7 +181,7 @@ GameSceneState::GameSceneState() : id(-1), players(0), bullets(0)
 		BulletState newBullet;
 		// 0 == Loaded
 		// 1 == Shot
-		newBullet.state = 0;
+		newBullet.state = BulletState::LOADED;
 		newBullet.posX = 0.0f;
 		newBullet.posZ = 0.0f;
 		newBullet.velX = 0.0f;
