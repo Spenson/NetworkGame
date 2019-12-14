@@ -216,7 +216,7 @@ void Server::UpdatePlayers(void)
 		//printf("Index:%d player:%d input:%d state:%d\n", i, mPlayers[i].port, mPlayers[i].input.input, mPlayers[i].state->state);
 		if (mPlayers[i].input.input == UserInputState::FORWARD)
 		{
-			glm::vec4 dir = (glm::mat4(glm::quat(glm::vec3(0, mPlayers[i].state->rot, 0))) * glm::vec4(0, 0, 1, 1.0f));
+			glm::vec4 dir = (glm::mat4(glm::quat(glm::radians(glm::vec3(0, mPlayers[i].state->rot, 0)))) * glm::vec4(0, 0, 1, 1.0f));
 			mPlayers[i].state->velX = dir.x * 5.0f;
 			mPlayers[i].state->velZ = dir.z * 5.0f;
 			dir *= (5.0f * elapsed_secs_since_update);
@@ -226,7 +226,7 @@ void Server::UpdatePlayers(void)
 		}
 		else if (mPlayers[i].input.input == UserInputState::BACKWARD)
 		{
-			glm::vec4 dir = (glm::mat4(glm::quat(glm::vec3(0, mPlayers[i].state->rot, 0))) * glm::vec4(0, 0, 1, 1.0f));
+			glm::vec4 dir = (glm::mat4(glm::quat(glm::radians(glm::vec3(0, mPlayers[i].state->rot, 0)))) * glm::vec4(0, 0, 1, 1.0f));
 			mPlayers[i].state->velX = dir.x * -5.0f;
 			mPlayers[i].state->velZ = dir.z * -5.0f;
 			dir *= (5.0f * elapsed_secs_since_update);
@@ -241,16 +241,16 @@ void Server::UpdatePlayers(void)
 
 		if (mPlayers[i].input.input == UserInputState::TURN_LEFT)
 		{
-			mPlayers[i].state->rot -= (5.0f * elapsed_secs_since_update);
+			mPlayers[i].state->rot += (5.0f * elapsed_secs_since_update);
 		}
 		else if (mPlayers[i].input.input == UserInputState::TURN_RIGHT)
 		{
-			mPlayers[i].state->rot += (5.0f * elapsed_secs_since_update);
+			mPlayers[i].state->rot -= (5.0f * elapsed_secs_since_update);
 		}
 		else if (mPlayers[i].input.input == UserInputState::FIRE)
 		{
 
-			glm::vec4 dir = (glm::mat4(glm::quat(glm::vec3(0, mPlayers[i].state->rot, 0))) * glm::vec4(0, 0, 1, 1.0f));
+			glm::vec4 dir = (glm::mat4(glm::quat(glm::radians(glm::vec3(0, mPlayers[i].state->rot, 0)))) * glm::vec4(0, 0, 1, 1.0f));
 
 		}
 	}
