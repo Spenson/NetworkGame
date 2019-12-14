@@ -17,14 +17,22 @@ Entire_Babbage_Space_Station_xyz_n_uv(trivial).ply
 # Build results
 ./[Dd]ebug/
 ./Degenerate/[Dd]ebug/
+./Protocol/[Dd]ebug/
+./Server/[Dd]ebug/
 [Dd]ebugPublic/
 ./[Rr]elease/
+./Protocol/[Rr]elease/
+./Server/[Rr]elease/
 ./Degenerate/[Rr]elease/
 [Rr]eleases/
 /x64/
 /x86/
 [Dd]egenerate/x64/
 [Dd]egenerate/x86/
+Protocol/x64/
+Protocol/x86/
+Server/x64/
+Server/x86/
 bld/
 [Bb]in/
 [Oo]bj/
