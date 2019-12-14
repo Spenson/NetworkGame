@@ -449,6 +449,18 @@ int main(void)
 				object->isVisible = true;
 				object->setOrientation(glm::vec3(0.0f, p.rot, 0.0f));
 			}
+
+			for (int i = 0; i < temp->bullets.size(); i++) 			
+			{
+				BulletState b = temp->bullets[i];				
+				cGameObject* object = pFindObjectByFriendlyName("Bullet" + std::to_string(i + 1));
+				object->positionXYZ.x = b.posX;
+				object->positionXYZ.z = b.posZ;
+				object->velocity.x = b.velX;
+				object->velocity.z = b.velZ;
+				object->isVisible = true;
+				object->scale = 0.5f;
+			}
 		}
 
 

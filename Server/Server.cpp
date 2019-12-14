@@ -27,11 +27,20 @@ unsigned int numPlayersConnected = 0;
 GameSceneState gs;
 
 
-
+void ShootBullet(BulletState& b, PlayerState* p, glm::vec4 dir)
+{
+	// 1 == shot
+	b.state = 1;
+	b.posX = p->posX;
+	b.posZ = p->posZ;
+	b.velX = dir.x * 10.0f;
+	b.velZ = dir.z * 10.0f;
+}
 
 PlayerState* AddPlayerToGame()
 {
 	PlayerState newPlayer;
+	newPlayer.state = PlayerState::ALIVE;
 	newPlayer.posX = 0.0f;
 	newPlayer.posZ = 0.0f;
 	newPlayer.velX = 0.0f;
@@ -253,6 +262,11 @@ void Server::UpdatePlayers(void)
 
 			glm::vec4 dir = (glm::mat4(glm::quat(glm::radians(glm::vec3(0, mPlayers[i].state->rot, 0)))) * glm::vec4(0, 0, 1, 1.0f));
 
+			// Check that bullet is loaded and not shot
+			if (gs.bullets[i].state == 0) 				
+			{
+				ShootBullet(gs.bullets[i], mPlayers[i].state, dir);
+			}
 
 		}
 	}

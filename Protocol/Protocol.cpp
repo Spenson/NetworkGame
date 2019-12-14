@@ -171,7 +171,22 @@ void BulletState::Deserialize(char* buff)
 GameSceneState::GameSceneState() : id(-1), players(0), bullets(0)
 {
 	players.reserve(4);
-	bullets.reserve(20);
+	bullets.reserve(4);
+
+	// 4 bullets for 4 players
+	for (size_t i = 0; i < 4; i++)
+	{
+		BulletState newBullet;
+		// 0 == Loaded
+		// 1 == Shot
+		newBullet.state = 0;
+		newBullet.posX = 0.0f;
+		newBullet.posZ = 0.0f;
+		newBullet.velX = 0.0f;
+		newBullet.velZ = 0.0f;
+		bullets.push_back(newBullet);
+	}
+	
 }
 
 
