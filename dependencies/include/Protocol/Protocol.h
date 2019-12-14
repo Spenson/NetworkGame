@@ -24,7 +24,12 @@ public:
 class PlayerState
 {
 public:
-	int state;
+	enum State
+	{
+		ALIVE, DEAD, DISCONNECT
+	};
+
+	State state;
 	float posX, posZ;
 	float velX, velZ;
 	float rot;
@@ -52,6 +57,7 @@ public:
 	int id;
 	std::vector<PlayerState> players;
 	std::vector<BulletState> bullets;
+	void UpdateId(int id);
 	void Serialize(std::vector<uint8_t>& buff);
 	void Deserialize(std::vector<uint8_t> buff);
 	void Deserialize(char* buff);

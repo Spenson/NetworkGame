@@ -17,13 +17,37 @@ struct Player
 {
 	unsigned short port; // their id;
 	struct sockaddr_in si_other;
-	PlayerState state;
+	PlayerState* state;
 	UserInputState input;
 };
 
 
 std::vector<Player> mPlayers;
 unsigned int numPlayersConnected = 0;
+GameSceneState gs;
+
+
+
+
+
+
+
+
+
+
+PlayerState* AddPlayerToGame()
+{
+	PlayerState newPlayer;
+	newPlayer.posX = 0.0f;
+	newPlayer.posZ = 0.0f;
+	newPlayer.velX = 0.0f;
+	newPlayer.velZ = 0.0f;
+	newPlayer.rot = 0.0f;
+
+	gs.players.push_back(newPlayer);
+
+	return &(gs.players[gs.players.size()-1]);
+}
 
 Player* GetPlayerByPort(unsigned short port, struct sockaddr_in si_other)
 {
@@ -36,11 +60,8 @@ Player* GetPlayerByPort(unsigned short port, struct sockaddr_in si_other)
 
 	// Otherwise create a new player, and return that one!
 	mPlayers[numPlayersConnected].port = port;
-	mPlayers[numPlayersConnected].state.posX = 0.0f;
-	mPlayers[numPlayersConnected].state.posZ = 0.0f;
-	mPlayers[numPlayersConnected].state.velX = 0.0f;
-	mPlayers[numPlayersConnected].state.velZ = 0.0f;
-	mPlayers[numPlayersConnected].state.rot = 0.0f;
+	mPlayers[numPlayersConnected].state = AddPlayerToGame();
+	mPlayers[numPlayersConnected].input.id = port;
 	mPlayers[numPlayersConnected].si_other = si_other;
 	return &(mPlayers[numPlayersConnected++]);
 }
@@ -145,6 +166,7 @@ void Server::Update(void)
 
 }
 
+
 void Server::SetNonBlocking(SOCKET socket)
 {
 	ULONG NonBlock = 1;
@@ -191,44 +213,45 @@ void Server::UpdatePlayers(void)
 {
 	for (unsigned int i = 0; i < numPlayersConnected; i++)
 	{
-		Player* p = &mPlayers[i];
-		if (p->input.input == UserInputState::FORWARD)
+		if (mPlayers[i].input.input == UserInputState::FORWARD)
 		{
-			glm::vec4 dir = (glm::mat4(glm::quat(glm::vec3(0, p->state.rot, 0))) * glm::vec4(0, 0, 1, 1.0f));
-			p->state.velX = dir.x * 5.0f;
-			p->state.velZ = dir.z * 5.0f;
+			glm::vec4 dir = (glm::mat4(glm::quat(glm::vec3(0, mPlayers[i].state->rot, 0))) * glm::vec4(0, 0, 1, 1.0f));
+			mPlayers[i].state->velX = dir.x * 5.0f;
+			mPlayers[i].state->velZ = dir.z * 5.0f;
 			dir *= (5.0f * elapsed_secs_since_update);
-			p->state.posX += dir.x;
-			p->state.posZ += dir.z;
+			mPlayers[i].state->posX += dir.x;
+			mPlayers[i].state->posZ += dir.z;
 
 		}
-		else if (p->input.input == UserInputState::BACKWARD)
+		else if (mPlayers[i].input.input == UserInputState::BACKWARD)
 		{
-			glm::vec4 dir = (glm::mat4(glm::quat(glm::vec3(0, p->state.rot, 0))) * glm::vec4(0, 0, 1, 1.0f));
-			p->state.velX = dir.x * -5.0f;
-			p->state.posZ = dir.z * -5.0f;
+			glm::vec4 dir = (glm::mat4(glm::quat(glm::vec3(0, mPlayers[i].state->rot, 0))) * glm::vec4(0, 0, 1, 1.0f));
+			mPlayers[i].state->velX = dir.x * -5.0f;
+			mPlayers[i].state->velZ = dir.z * -5.0f;
 			dir *= (5.0f * elapsed_secs_since_update);
-			p->state.posX -= dir.x;
-			p->state.posZ -= dir.z;
+			mPlayers[i].state->posX -= dir.x;
+			mPlayers[i].state->posZ -= dir.z;
 		}
 		else
 		{
-			p->state.velX = 0.0f;
-			p->state.velZ = 0.0f;
+			mPlayers[i].state->velX = 0.0f;
+			mPlayers[i].state->velZ = 0.0f;
 		}
 
-		if (p->input.input == UserInputState::TURN_LEFT)
+		if (mPlayers[i].input.input == UserInputState::TURN_LEFT)
 		{
-			p->state.rot += (5.0f * elapsed_secs_since_update);
+			mPlayers[i].state->rot -= (5.0f * elapsed_secs_since_update);
 		}
-		else if (p->input.input == UserInputState::TURN_RIGHT)
+		else if (mPlayers[i].input.input == UserInputState::TURN_RIGHT)
 		{
-			p->state.rot -= (5.0f * elapsed_secs_since_update);
+			mPlayers[i].state->rot += (5.0f * elapsed_secs_since_update);
 		}
-		/*else if (p->input.input == UserInputState::FIRE)
+		else if (mPlayers[i].input.input == UserInputState::FIRE)
 		{
 
-		} */
+			glm::vec4 dir = (glm::mat4(glm::quat(glm::vec3(0, mPlayers[i].state->rot, 0))) * glm::vec4(0, 0, 1, 1.0f));
+
+		}
 	}
 }
 
@@ -241,19 +264,26 @@ void Server::BroadcastUpdate(void)
 
 	//memcpy(&(buffer[0]), &numPlayersConnected, sizeof(unsigned int));
 
-	GameSceneState gs;
 
-	for (unsigned int i = 0; i < numPlayersConnected; i++)
-	{
-		gs.players.push_back(mPlayers[i].state);
-		printf("%f\n", mPlayers[i].state.posZ);
-	}
+
+	//for (unsigned int i = 0; i < numPlayersConnected; i++)
+	//{
+	//	gs.players.push_back(mPlayers[i].state);
+	//	printf("%f\n", mPlayers[i].state.posZ);
+	//}
 	std::vector<uint8_t> buff;
 	gs.Serialize(buff);
 
+
+
 	for (unsigned int i = 0; i < numPlayersConnected; i++)
 	{
-		int result = sendto(mListenSocket, (char*)&buff[0], buff.size(), 0, (struct sockaddr*)& (mPlayers[i].si_other), sizeof(mPlayers[i].si_other));
+		buff[0] = i;
+		buff[1] = i >> 8;
+		buff[2] = i >> 16;
+		buff[3] = i >> 24;
+
+		int result = sendto(mListenSocket, (char*)&buff[0], buff.size(), 0, (struct sockaddr*) & (mPlayers[i].si_other), sizeof(mPlayers[i].si_other));
 	}
 
 

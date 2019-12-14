@@ -441,7 +441,7 @@ int main(void)
 			for (int i = 0; i < temp->players.size(); i++)
 			{
 				PlayerState p = temp->players[i];
-				cGameObject* object = pFindObjectByFriendlyName("Ship" + std::to_string(i + 1));
+				cGameObject* object = pFindObjectByFriendlyName("Ship" + std::to_string(temp->id + 1));
 				object->positionXYZ.x = p.posX;
 				object->positionXYZ.z = p.posZ;
 				object->velocity.x = p.velX;

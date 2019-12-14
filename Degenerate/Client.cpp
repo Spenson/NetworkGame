@@ -62,6 +62,7 @@ bool Client::Update(void)
 void Client::Send(UserInputState i)
 {
 	std::vector<uint8_t> data;
+	i.id = m_gs->id;
 	i.Serialize(data);
 
 	int result = sendto(mServerSocket, (char*)&data[0], data.size(), 0,
@@ -79,6 +80,7 @@ void Client::Send(UserInputState i)
 		printf("Disconnected...\n");
 		return;
 	}
+	printf("Send: %s\n", std::to_string(i.input).c_str());
 }
 
 void Client::getGameState(GameSceneState* &gs)
@@ -126,7 +128,7 @@ bool Client::Recv(void)
 	//std::vector<uint8_t> buff(buffer);
 	m_gs->Deserialize(buffer);
 
-	printf("%zd players, %zd", m_gs->players.size(), m_gs->bullets.size());
+	//printf("%zd players, %zd\n", m_gs->players.size(), m_gs->bullets.size());
 	return true;
 
 }

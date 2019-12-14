@@ -38,6 +38,8 @@ private:
 	void SetNonBlocking(SOCKET socket);
 	bool Recv(void);
 
+	unsigned int ClientNumber;
+
 	GameSceneState* m_gs;
 
 	SOCKET mServerSocket;
