@@ -27,6 +27,7 @@ private:
 	void ReadData(void);
 
 	void UpdatePlayers(void);
+	void UpdateBullets(void);
 	void BroadcastUpdate(void);
 
 	bool mIsRunning;

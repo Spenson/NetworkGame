@@ -33,8 +33,8 @@ void ShootBullet(BulletState& b, PlayerState* p, glm::vec4 dir)
 	b.state = 1;
 	b.posX = p->posX;
 	b.posZ = p->posZ;
-	b.velX = dir.x * 10.0f;
-	b.velZ = dir.z * 10.0f;
+	b.velX = dir.x * 1.0f;
+	b.velZ = dir.z * 1.0f;
 }
 
 PlayerState* AddPlayerToGame()
@@ -160,6 +160,7 @@ void Server::Update(void)
 	if (elapsed_secs_since_update >= (1.0f / UPDATES_PER_SEC))
 	{
 		UpdatePlayers();
+		UpdateBullets();
 		prevUpdate = curr;
 	}
 
@@ -263,11 +264,23 @@ void Server::UpdatePlayers(void)
 			glm::vec4 dir = (glm::mat4(glm::quat(glm::radians(glm::vec3(0, mPlayers[i].state->rot, 0)))) * glm::vec4(0, 0, 1, 1.0f));
 
 			// Check that bullet is loaded and not shot
-			if (gs.bullets[i].state == 0) 				
+			if (gs.bullets[i].state == 0) 
 			{
 				ShootBullet(gs.bullets[i], mPlayers[i].state, dir);
-			}
+			}		
 
+		}
+	}
+}
+
+void Server::UpdateBullets(void) 
+{
+	for (unsigned int i = 0; i < numPlayersConnected; i++) 
+	{
+		if (gs.bullets[i].state == 1) 
+		{
+			gs.bullets[i].posX += gs.bullets[i].velX;
+			gs.bullets[i].posZ += gs.bullets[i].velZ;
 		}
 	}
 }

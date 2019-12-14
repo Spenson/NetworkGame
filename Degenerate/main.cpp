@@ -460,6 +460,12 @@ int main(void)
 				object->velocity.z = b.velZ;
 				object->isVisible = true;
 				object->scale = 0.5f;
+
+				if (b.state == 0) 					
+				{
+					object->isVisible = false;
+				}
+
 			}
 		}
 
