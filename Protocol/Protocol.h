@@ -57,6 +57,8 @@ public:
 	int id;
 	std::vector<PlayerState> players;
 	std::vector<BulletState> bullets;
+
+	GameSceneState();
 	void UpdateId(int id);
 	void Serialize(std::vector<uint8_t>& buff);
 	void Deserialize(std::vector<uint8_t> buff);

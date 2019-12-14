@@ -168,6 +168,11 @@ void BulletState::Deserialize(char* buff)
 	velZ = *reinterpret_cast<float*>(&temp);
 }
 
+GameSceneState::GameSceneState() : id(-1), players(0), bullets(0)
+{
+	players.reserve(4);
+	bullets.reserve(20);
+}
 
 
 void GameSceneState::Serialize(std::vector<uint8_t>& buff)
@@ -218,7 +223,7 @@ void GameSceneState::Deserialize(std::vector<uint8_t> buff)
 	for (size_t playerNum = 0; playerNum < playersSize; playerNum++)
 	{
 		PlayerState p;
-		p.Deserialize(std::vector<uint8_t>(buff.begin()+index, buff.begin() + (index+24)));
+		p.Deserialize(std::vector<uint8_t>(buff.begin() + index, buff.begin() + (index + 24)));
 		players.push_back(p);
 		index += 24;
 	}
