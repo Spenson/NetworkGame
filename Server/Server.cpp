@@ -21,9 +21,16 @@ struct Player
 	UserInputState input;
 };
 
+struct Bullet {
+	//BulletState* state;
+	double timeSinceShot;
+};
+
 
 std::vector<Player> mPlayers;
+std::vector<Bullet> mBullets;
 unsigned int numPlayersConnected = 0;
+double totalBulletTime = 2.0;
 GameSceneState gs;
 
 
@@ -96,6 +103,7 @@ Server::Server(void)
 	, mAcceptSocket(INVALID_SOCKET)
 {
 	mPlayers.resize(4);
+	mBullets.resize(4);
 
 	// WinSock vars
 	WSAData		WSAData;
@@ -159,7 +167,7 @@ void Server::Update(void)
 	if (elapsed_secs_since_update >= (1.0f / UPDATES_PER_SEC))
 	{
 		UpdatePlayers();
-		UpdateBullets();
+		UpdateBullets(elapsed_secs_since_update);
 		prevUpdate = curr;
 	}
 
@@ -266,21 +274,33 @@ void Server::UpdatePlayers(void)
 			if (gs.bullets[i].state == BulletState::LOADED) 
 			{
 				ShootBullet(gs.bullets[i], mPlayers[i].state, dir);
+				//mBullets[i].state = &gs.bullets[i];
+				mBullets[i].timeSinceShot = 0.0f;
 			}		
 
 		}
 	}
 }
 
-void Server::UpdateBullets(void) 
+void Server::UpdateBullets(double timePassed) 
 {
 	for (unsigned int i = 0; i < numPlayersConnected; i++) 
 	{
+		// Check if time limit for bullet has expired
+		if (mBullets[i].timeSinceShot >= totalBulletTime) {
+			gs.bullets[i].state = BulletState::LOADED;
+			mBullets[i].timeSinceShot = 0;
+		}
+
+		// Update the position of a shot bullet
 		if (gs.bullets[i].state == BulletState::SHOT)
 		{
 			gs.bullets[i].posX += gs.bullets[i].velX;
 			gs.bullets[i].posZ += gs.bullets[i].velZ;
 		}
+
+		// Time moves ever onwards...
+		mBullets[i].timeSinceShot += timePassed;
 	}
 }
 
