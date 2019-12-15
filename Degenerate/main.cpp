@@ -272,6 +272,10 @@ int main(void)
 
 
 
+		double averageDeltaTime = avgDeltaTimeThingy.getAverage();
+
+		// TODO: Update to include Angular Velocity
+		pPhsyics->IntegrationStep(::g_vec_pGameObjects, deltaTime);//(float)averageDeltaTime);
 
 
 
@@ -298,6 +302,7 @@ int main(void)
 
 
 		g_pLightManager->PassLightsToShader();
+
 		if (ISALIVE)
 			glUniform4f(UniformManager::eyeLocation_UL, tpc.Position().x, tpc.Position().y, tpc.Position().z, 1.0f);
 		else
@@ -321,16 +326,6 @@ int main(void)
 
 
 
-
-
-
-
-
-
-		double averageDeltaTime = avgDeltaTimeThingy.getAverage();
-
-		// TODO: Update to include Angular Velocity
-		pPhsyics->IntegrationStep(::g_vec_pGameObjects, deltaTime);//(float)averageDeltaTime);
 
 
 		cGameObject* pSkyBox = pFindObjectByFriendlyName("skybox");

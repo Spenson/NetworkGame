@@ -24,7 +24,7 @@ Both the Client(Degenerate) and the Server require Protocol to be built first.
 
 Make sure to run the Server first, then add Clients as desired.
 
-
+SORRY FOR THE FAN. Running 3 instances and the server at the same time is hard on the laptop so it sounds like it is dying.
 
 
 
