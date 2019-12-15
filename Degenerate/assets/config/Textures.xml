@@ -1,10 +1,6 @@
 <TEXTURES>
   <TextureGroup>
     <Dir>assets/textures/</Dir>
-    <File>Grass.bmp</File>
-    <File>Rock.bmp</File>
-    <File>Sand.bmp</File>
-    <File>Water.bmp</File>
   </TextureGroup>
 
   <TextureGroup>
