@@ -22,18 +22,8 @@
     <ClCompile Include="..\dependencies\src\glad.c" />
     <ClCompile Include="..\dependencies\src\tinyxml2.cpp" />
     <ClCompile Include="Camera\CameraManager.cpp" />
-    <ClCompile Include="Camera\cFlyCamera.cpp" />
     <ClCompile Include="Camera\ThirdPersonCamera.cpp" />
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="Commands\cLuaBrain.cpp" />
-    <ClCompile Include="Commands\FollowCurveCommand.cpp" />
-    <ClCompile Include="Commands\FollowObjectCommand.cpp" />
-    <ClCompile Include="Commands\LocationTrigger.cpp" />
-    <ClCompile Include="Commands\MoveCommand.cpp" />
-    <ClCompile Include="Commands\ParallelCommandGroup.cpp" />
-    <ClCompile Include="Commands\Commands.cpp" />
-    <ClCompile Include="Commands\RotateCommand.cpp" />
-    <ClCompile Include="Commands\SerialCommandGroup.cpp" />
     <ClCompile Include="DebugRenderer\cDebugRenderer.cpp" />
     <ClCompile Include="DebugRenderer\cDebugRenderer_BuiltInShapes.cpp" />
     <ClCompile Include="DebugRenderer\CErrorLog.cpp" />
@@ -48,7 +38,6 @@
     <ClCompile Include="LowPassFilter\cLowPassFilter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ModelStuff\cModelLoader.cpp" />
-    <ClCompile Include="ParticalEffects\cParticleEmitter.cpp" />
     <ClCompile Include="Physics\cPhysics.cpp" />
     <ClCompile Include="Physics\cPhysics_Ericson.cpp" />
     <ClCompile Include="Physics\SubdivideWorld.cpp" />
@@ -61,26 +50,14 @@
     <ClCompile Include="Texture\CTextureFromBMP.cpp" />
     <ClCompile Include="UserInputs\GFLW_callbacks.cpp" />
     <ClCompile Include="UserInputs\key_callbacks.cpp" />
-    <ClCompile Include="UserInputs\mouse_callbacks.cpp" />
     <ClCompile Include="UserInputs\UserInput.cpp" />
     <ClCompile Include="VAOManager\cVAOManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\dependencies\src\tinyxml2.h" />
     <ClInclude Include="Camera\CameraManager.h" />
-    <ClInclude Include="Camera\cFlyCamera.h" />
     <ClInclude Include="Camera\ThirdPersonCamera.h" />
     <ClInclude Include="Client.h" />
-    <ClInclude Include="Commands\cLuaBrain.h" />
-    <ClInclude Include="Commands\FollowCurveCommand.h" />
-    <ClInclude Include="Commands\FollowObjectCommand.h" />
-    <ClInclude Include="Commands\LocationTrigger.h" />
-    <ClInclude Include="Commands\ParallelCommandGroup.h" />
-    <ClInclude Include="Commands\Commands.h" />
-    <ClInclude Include="Commands\iCommand.h" />
-    <ClInclude Include="Commands\MoveCommand.h" />
-    <ClInclude Include="Commands\RotateCommand.h" />
-    <ClInclude Include="Commands\SerialCommandGroup.h" />
     <ClInclude Include="DebugRenderer\cDebugRenderer.h" />
     <ClInclude Include="DebugRenderer\CErrorLog.h" />
     <ClInclude Include="DebugRenderer\cGLRenderStateHelper.h" />
@@ -97,7 +74,6 @@
     <ClInclude Include="LowPassFilter\cLowPassFilter.h" />
     <ClInclude Include="ModelStuff\cMesh.h" />
     <ClInclude Include="ModelStuff\cModelLoader.h" />
-    <ClInclude Include="ParticalEffects\cParticleEmitter.h" />
     <ClInclude Include="Physics\cPhysics.h" />
     <ClInclude Include="Physics\SubdivideWorld.h" />
     <ClInclude Include="ShaderManager\cShaderManager.h" />

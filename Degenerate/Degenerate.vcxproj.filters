@@ -50,23 +50,14 @@
     <ClCompile Include="UserInputs\key_callbacks.cpp">
       <Filter>UserInput</Filter>
     </ClCompile>
-    <ClCompile Include="UserInputs\mouse_callbacks.cpp">
-      <Filter>UserInput</Filter>
-    </ClCompile>
     <ClCompile Include="UserInputs\UserInput.cpp">
       <Filter>UserInput</Filter>
     </ClCompile>
     <ClCompile Include="Camera\CameraManager.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Camera\cFlyCamera.cpp">
-      <Filter>Camera</Filter>
-    </ClCompile>
     <ClCompile Include="ModelStuff\cModelLoader.cpp">
       <Filter>ModelStuff</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticalEffects\cParticleEmitter.cpp">
-      <Filter>ParticalEffects</Filter>
     </ClCompile>
     <ClCompile Include="SimpleShaderStuff\Rendering.cpp">
       <Filter>SimpleShader</Filter>
@@ -100,33 +91,6 @@
     </ClCompile>
     <ClCompile Include="Camera\ThirdPersonCamera.cpp">
       <Filter>Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Commands\ParallelCommandGroup.cpp">
-      <Filter>Command\CommandGroup</Filter>
-    </ClCompile>
-    <ClCompile Include="Commands\Commands.cpp">
-      <Filter>Command</Filter>
-    </ClCompile>
-    <ClCompile Include="Commands\SerialCommandGroup.cpp">
-      <Filter>Command\CommandGroup</Filter>
-    </ClCompile>
-    <ClCompile Include="Commands\MoveCommand.cpp">
-      <Filter>Command\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="Commands\FollowCurveCommand.cpp">
-      <Filter>Command\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="Commands\FollowObjectCommand.cpp">
-      <Filter>Command\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="Commands\RotateCommand.cpp">
-      <Filter>Command\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="Commands\LocationTrigger.cpp">
-      <Filter>Command</Filter>
-    </ClCompile>
-    <ClCompile Include="Commands\cLuaBrain.cpp">
-      <Filter>Command</Filter>
     </ClCompile>
     <ClCompile Include="Client.cpp">
       <Filter>Client</Filter>
@@ -180,17 +144,11 @@
     <ClInclude Include="Camera\CameraManager.h">
       <Filter>Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Camera\cFlyCamera.h">
-      <Filter>Camera</Filter>
-    </ClInclude>
     <ClInclude Include="ModelStuff\cModelLoader.h">
       <Filter>ModelStuff</Filter>
     </ClInclude>
     <ClInclude Include="ModelStuff\cMesh.h">
       <Filter>ModelStuff</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticalEffects\cParticleEmitter.h">
-      <Filter>ParticalEffects</Filter>
     </ClInclude>
     <ClInclude Include="SimpleShaderStuff\Rendering.h">
       <Filter>SimpleShader</Filter>
@@ -221,36 +179,6 @@
     </ClInclude>
     <ClInclude Include="Camera\ThirdPersonCamera.h">
       <Filter>Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Commands\iCommand.h">
-      <Filter>Command</Filter>
-    </ClInclude>
-    <ClInclude Include="Commands\ParallelCommandGroup.h">
-      <Filter>Command\CommandGroup</Filter>
-    </ClInclude>
-    <ClInclude Include="Commands\Commands.h">
-      <Filter>Command</Filter>
-    </ClInclude>
-    <ClInclude Include="Commands\SerialCommandGroup.h">
-      <Filter>Command\CommandGroup</Filter>
-    </ClInclude>
-    <ClInclude Include="Commands\MoveCommand.h">
-      <Filter>Command\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="Commands\RotateCommand.h">
-      <Filter>Command\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="Commands\FollowCurveCommand.h">
-      <Filter>Command\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="Commands\FollowObjectCommand.h">
-      <Filter>Command\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="Commands\LocationTrigger.h">
-      <Filter>Command</Filter>
-    </ClInclude>
-    <ClInclude Include="Commands\cLuaBrain.h">
-      <Filter>Command</Filter>
     </ClInclude>
     <ClInclude Include="Client.h">
       <Filter>Client</Filter>
@@ -284,9 +212,6 @@
     <Filter Include="ModelStuff">
       <UniqueIdentifier>{e5a4d6db-2963-482e-b124-1a7982cc2e94}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ParticalEffects">
-      <UniqueIdentifier>{df803fa9-a031-4d2a-97e5-04edcbb45052}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Physics">
       <UniqueIdentifier>{2b3db6b5-64b2-446b-b9cd-32b5cb234c56}</UniqueIdentifier>
     </Filter>
@@ -307,15 +232,6 @@
     </Filter>
     <Filter Include="Texture">
       <UniqueIdentifier>{b38f96fd-1892-4ba7-ba20-4c6a00c8f300}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Command">
-      <UniqueIdentifier>{ccc9254c-1feb-4e7b-a5e0-cd6d9aa023f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Command\CommandGroup">
-      <UniqueIdentifier>{19501096-1b42-435d-ba1f-efe133db0ace}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Command\Commands">
-      <UniqueIdentifier>{807857e6-c10e-475d-b64d-bbe858308057}</UniqueIdentifier>
     </Filter>
     <Filter Include="Client">
       <UniqueIdentifier>{414265a4-a0c8-4ca7-8eca-33dee57d9202}</UniqueIdentifier>
