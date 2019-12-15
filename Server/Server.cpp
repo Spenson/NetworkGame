@@ -277,57 +277,66 @@ void Server::UpdatePlayers(void)
 {
 	for (unsigned int i = 0; i < numPlayersConnected; i++)
 	{
-		//printf("Index:%d player:%d input:%d state:%d\n", i, mPlayers[i].port, mPlayers[i].input.input, mPlayers[i].state->state);
-		if (mPlayers[i].input.input == UserInputState::FORWARD)
+		// Only shoot if player is alive
+		if (mPlayers[i].state->state == PlayerState::ALIVE) 
 		{
-			glm::vec4 dir = MatRotation(mPlayers[i].state->rot) * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-			mPlayers[i].state->velX = dir.x * SHIP_SPEED;
-			mPlayers[i].state->velZ = dir.z * SHIP_SPEED;
-			dir *= (SHIP_SPEED * elapsed_secs_since_update);
-			mPlayers[i].state->posX += dir.x;
-			mPlayers[i].state->posZ += dir.z;
-			printf("port:%d x,z:(%f,%f) rot:(%f) FORWARDS!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
-		}
-		else if (mPlayers[i].input.input == UserInputState::BACKWARD)
-		{
-			glm::vec4 dir = MatRotation(mPlayers[i].state->rot) * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-			mPlayers[i].state->velX = dir.x * -SHIP_SPEED;
-			mPlayers[i].state->velZ = dir.z * -SHIP_SPEED;
-			dir *= (SHIP_SPEED * elapsed_secs_since_update);
-			mPlayers[i].state->posX -= dir.x;
-			mPlayers[i].state->posZ -= dir.z;
-			printf("port:%d x,z:(%f,%f) rot:(%f) BACKWARDS!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
-		}
-		else
-		{
-			mPlayers[i].state->velX = 0.0f;
-			mPlayers[i].state->velZ = 0.0f;
-		}
-
-		if (mPlayers[i].input.input == UserInputState::TURN_LEFT)
-		{
-			mPlayers[i].state->rot += (SHIP_SPEED * elapsed_secs_since_update);
-			printf("port:%d x,z:(%f,%f) rot:(%f) LEFT!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
-		}
-		else if (mPlayers[i].input.input == UserInputState::TURN_RIGHT)
-		{
-			mPlayers[i].state->rot -= (SHIP_SPEED * elapsed_secs_since_update);
-			printf("port:%d x,z:(%f,%f) rot:(%f) RIGHT!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
-		}
-		else if (mPlayers[i].input.input == UserInputState::FIRE)
-		{
-			printf("port:%d x,z:(%f,%f) rot:(%f) SHOOOOOT!!!!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
-
-
-			// Check that bullet is loaded and not shot
-			if (gs.bullets[i].state == BulletState::LOADED)
+			//printf("Index:%d player:%d input:%d state:%d\n", i, mPlayers[i].port, mPlayers[i].input.input, mPlayers[i].state->state);
+			if (mPlayers[i].input.input == UserInputState::FORWARD)
 			{
 				glm::vec4 dir = MatRotation(mPlayers[i].state->rot) * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
-				ShootBullet(gs.bullets[i], mPlayers[i].state, dir);
-				//mBullets[i].state = &gs.bullets[i];
-				mBullets[i].timeSinceShot = 0.0f;
+				mPlayers[i].state->velX = dir.x * SHIP_SPEED;
+				mPlayers[i].state->velZ = dir.z * SHIP_SPEED;
+				dir *= (SHIP_SPEED * elapsed_secs_since_update);
+				mPlayers[i].state->posX += dir.x;
+				mPlayers[i].state->posZ += dir.z;
+				printf("port:%d x,z:(%f,%f) rot:(%f) FORWARDS!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
+			}
+			else if (mPlayers[i].input.input == UserInputState::BACKWARD)
+			{
+				glm::vec4 dir = MatRotation(mPlayers[i].state->rot) * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+				mPlayers[i].state->velX = dir.x * -SHIP_SPEED;
+				mPlayers[i].state->velZ = dir.z * -SHIP_SPEED;
+				dir *= (SHIP_SPEED * elapsed_secs_since_update);
+				mPlayers[i].state->posX -= dir.x;
+				mPlayers[i].state->posZ -= dir.z;
+				printf("port:%d x,z:(%f,%f) rot:(%f) BACKWARDS!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
+			}
+			else
+			{
+				mPlayers[i].state->velX = 0.0f;
+				mPlayers[i].state->velZ = 0.0f;
 			}
 
+			if (mPlayers[i].input.input == UserInputState::TURN_LEFT)
+			{
+				mPlayers[i].state->rot += (SHIP_SPEED * elapsed_secs_since_update);
+				printf("port:%d x,z:(%f,%f) rot:(%f) LEFT!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
+			}
+			else if (mPlayers[i].input.input == UserInputState::TURN_RIGHT)
+			{
+				mPlayers[i].state->rot -= (SHIP_SPEED * elapsed_secs_since_update);
+				printf("port:%d x,z:(%f,%f) rot:(%f) RIGHT!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
+			}
+			else if (mPlayers[i].input.input == UserInputState::FIRE)
+			{
+				printf("port:%d x,z:(%f,%f) rot:(%f) SHOOOOOT!!!!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
+			
+				// Check that bullet is loaded and not shot
+				if (gs.bullets[i].state == BulletState::LOADED) 
+				{
+					glm::vec4 dir = MatRotation(mPlayers[i].state->rot) * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+					ShootBullet(gs.bullets[i], mPlayers[i].state, dir);
+					mBullets[i].timeSinceShot = 0.0f;
+				}
+			}
+		}
+		else if (mPlayers[i].state->state == PlayerState::DEAD) 
+		{
+			if (mPlayers[i].input.input == UserInputState::FIRE) 				
+			{
+				// If dead, then this will respawn them
+				mPlayers[i].state->state = PlayerState::ALIVE;
+			}			
 		}
 	}
 }
@@ -396,13 +405,20 @@ void Server::CollisionCheck(void)
 		if (gs.bullets[i].state == BulletState::LOADED)
 			continue;
 
-
 		for (size_t x = 0; x < gs.players.size(); x++)
 		{
-
 			if (BulletShipCollision(gs.players[x].posX, gs.players[x].posZ, gs.players[x].rot, gs.bullets[i].posX, gs.bullets[i].posZ))
 			{
-				printf("hit!\n");
+				if (gs.players[x].state == PlayerState::ALIVE)
+				{
+					printf("hit!\n");
+					// This ship is now mega dead
+					gs.players[x].state = PlayerState::DEAD;
+
+					// Reload the bullet
+					gs.bullets[i].state = BulletState::LOADED;
+				}
+				
 			}
 		}
 	}
