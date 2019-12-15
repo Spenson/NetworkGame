@@ -9,6 +9,7 @@ AD					Rotate left and right
 SPACE				Shoot bullet / Respawn if dead
 
 Bird's Eye View		Switches to this when dead
+					(Controllable camera. Click and drag to look around. WASD to move.)
 
 
 Building and Running:
@@ -22,7 +23,6 @@ Both the Client(Degenerate) and the Server require Protocol to be built first.
 
 
 Make sure to run the Server first, then add Clients as desired.
-
 
 
 
