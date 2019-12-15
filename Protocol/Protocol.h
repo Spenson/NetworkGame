@@ -6,6 +6,12 @@
 #include <vector>
 
 
+#define SHIP_SPEED 10.0f
+#define BULLET_SPEED 100.0f
+
+
+
+
 class UserInputState
 {
 public:

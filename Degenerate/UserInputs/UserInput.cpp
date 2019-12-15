@@ -522,7 +522,7 @@ void ShipControls(GLFWwindow* window, double deltaTime)
 	//if (areAllModifiersUp(window))
 	//{
 	UserInputState uis;
-	uis.input = (UserInputState::Input)-1;
+	uis.input = (UserInputState::Input) - 1;
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
@@ -536,15 +536,21 @@ void ShipControls(GLFWwindow* window, double deltaTime)
 
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
+		pFindObjectByFriendlyName("Ship" + std::to_string(::g_client.GetId() + 1))->setAngularVelocity(glm::vec3(0.0f, SHIP_SPEED, 0.0f));
 		uis.input = UserInputState::TURN_LEFT;
 	}
 	else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
+		pFindObjectByFriendlyName("Ship" + std::to_string(::g_client.GetId() + 1))->setAngularVelocity(glm::vec3(0.0f, -SHIP_SPEED, 0.0f));
 		uis.input = UserInputState::TURN_RIGHT;
 	}
+	else
+	{
+		if(pFindObjectByFriendlyName("Ship" + std::to_string(::g_client.GetId() + 1)))
+			pFindObjectByFriendlyName("Ship" + std::to_string(::g_client.GetId() + 1))->setAngularVelocity(glm::vec3(0.0f, 0.0f, 0.0f));
+	}
 
-
-	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) 
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 	{
 		uis.input = UserInputState::FIRE;
 	}
@@ -559,7 +565,7 @@ void ShipControls(GLFWwindow* window, double deltaTime)
 
 
 
-	/*	
+	/*
 
 
 		if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)

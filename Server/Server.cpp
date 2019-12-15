@@ -12,6 +12,8 @@
 
 #include <Protocol/Protocol.h>
 
+#include <glm/gtx/closest_point.hpp>
+
 
 struct Player
 {
@@ -21,7 +23,8 @@ struct Player
 	UserInputState input;
 };
 
-struct Bullet {
+struct Bullet
+{
 	//BulletState* state;
 	double timeSinceShot;
 };
@@ -33,14 +36,60 @@ unsigned int numPlayersConnected = 0;
 double totalBulletTime = 2.0;
 GameSceneState gs;
 
+glm::mat4 MatRotation(float rot) { return glm::mat4(glm::quat(glm::radians(glm::vec3(0, rot, 0)))); }
+
+
+
+bool BulletShipCollision(float ShipX, float ShipZ, float ShipR, float BullX, float BullZ)
+{
+	if (glm::distance(glm::vec2(ShipX, ShipZ), glm::vec2(BullX, BullZ)) > 15)
+		return false;
+
+	glm::vec2 Bull(BullX, BullZ);
+	glm::vec2 Ship(ShipX, ShipZ);
+
+	glm::vec2 FrontPoint(0.0f, 4.6f);
+	glm::vec2 BackLeft(-2.0, -4.0);
+	glm::vec2 BackRight(2.0, -4.0);
+
+	glm::vec4 translate = MatRotation(ShipR) * glm::vec4(FrontPoint.x, 0.0f, FrontPoint.y, 1.0f);
+	FrontPoint = glm::vec2(translate.x, translate.z);
+	FrontPoint += Ship;
+
+	translate = MatRotation(ShipR) * glm::vec4(BackLeft.x, 0.0f, BackLeft.y, 1.0f);
+	BackLeft = glm::vec2(translate.x, translate.z);
+	BackLeft += Ship;
+
+	translate = MatRotation(ShipR) * glm::vec4(BackRight.x, 0.0f, BackRight.y, 1.0f);
+	BackRight = glm::vec2(translate.x, translate.z);
+	BackRight += Ship;
+
+
+
+	if (glm::distance(glm::closestPointOnLine(Bull, FrontPoint, BackLeft), Bull) > 3.0f)
+		return false;
+	if (glm::distance(glm::closestPointOnLine(Bull, FrontPoint, BackRight), Bull) > 3.0f)
+		return false;
+	if (glm::distance(glm::closestPointOnLine(Bull, BackRight, BackLeft), Bull) > 3.0f)
+		return false;
+
+	return true;
+}
+
+
+bool CollisionCheck(float Ship1X, float Ship1Z, float Ship1R, float Ship2X, float Ship2Z, float Ship2R)
+{
+	return false;
+}
+
 
 void ShootBullet(BulletState& b, PlayerState* p, glm::vec4 dir)
 {
 	b.state = BulletState::SHOT;
-	b.posX = p->posX;
-	b.posZ = p->posZ;
-	b.velX = dir.x * 1.0f;
-	b.velZ = dir.z * 1.0f;
+	b.posX = p->posX + (dir.x * 5.0f);
+	b.posZ = p->posZ + (dir.z * 5.0f);
+	b.velX = dir.x * BULLET_SPEED;
+	b.velZ = dir.z * BULLET_SPEED;
 }
 
 PlayerState* AddPlayerToGame()
@@ -167,7 +216,8 @@ void Server::Update(void)
 	if (elapsed_secs_since_update >= (1.0f / UPDATES_PER_SEC))
 	{
 		UpdatePlayers();
-		UpdateBullets(elapsed_secs_since_update);
+		UpdateBullets();
+		CollisionCheck();
 		prevUpdate = curr;
 	}
 
@@ -230,20 +280,20 @@ void Server::UpdatePlayers(void)
 		//printf("Index:%d player:%d input:%d state:%d\n", i, mPlayers[i].port, mPlayers[i].input.input, mPlayers[i].state->state);
 		if (mPlayers[i].input.input == UserInputState::FORWARD)
 		{
-			glm::vec4 dir = (glm::mat4(glm::quat(glm::radians(glm::vec3(0, mPlayers[i].state->rot, 0)))) * glm::vec4(0, 0, 1, 1.0f));
-			mPlayers[i].state->velX = dir.x * 5.0f;
-			mPlayers[i].state->velZ = dir.z * 5.0f;
-			dir *= (5.0f * elapsed_secs_since_update);
+			glm::vec4 dir = MatRotation(mPlayers[i].state->rot) * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+			mPlayers[i].state->velX = dir.x * SHIP_SPEED;
+			mPlayers[i].state->velZ = dir.z * SHIP_SPEED;
+			dir *= (SHIP_SPEED * elapsed_secs_since_update);
 			mPlayers[i].state->posX += dir.x;
 			mPlayers[i].state->posZ += dir.z;
 			printf("port:%d x,z:(%f,%f) rot:(%f) FORWARDS!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
 		}
 		else if (mPlayers[i].input.input == UserInputState::BACKWARD)
 		{
-			glm::vec4 dir = (glm::mat4(glm::quat(glm::radians(glm::vec3(0, mPlayers[i].state->rot, 0)))) * glm::vec4(0, 0, 1, 1.0f));
-			mPlayers[i].state->velX = dir.x * -5.0f;
-			mPlayers[i].state->velZ = dir.z * -5.0f;
-			dir *= (5.0f * elapsed_secs_since_update);
+			glm::vec4 dir = MatRotation(mPlayers[i].state->rot) * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+			mPlayers[i].state->velX = dir.x * -SHIP_SPEED;
+			mPlayers[i].state->velZ = dir.z * -SHIP_SPEED;
+			dir *= (SHIP_SPEED * elapsed_secs_since_update);
 			mPlayers[i].state->posX -= dir.x;
 			mPlayers[i].state->posZ -= dir.z;
 			printf("port:%d x,z:(%f,%f) rot:(%f) BACKWARDS!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
@@ -256,38 +306,39 @@ void Server::UpdatePlayers(void)
 
 		if (mPlayers[i].input.input == UserInputState::TURN_LEFT)
 		{
-			mPlayers[i].state->rot += (5.0f * elapsed_secs_since_update);
+			mPlayers[i].state->rot += (SHIP_SPEED * elapsed_secs_since_update);
 			printf("port:%d x,z:(%f,%f) rot:(%f) LEFT!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
 		}
 		else if (mPlayers[i].input.input == UserInputState::TURN_RIGHT)
 		{
-			mPlayers[i].state->rot -= (5.0f * elapsed_secs_since_update);
+			mPlayers[i].state->rot -= (SHIP_SPEED * elapsed_secs_since_update);
 			printf("port:%d x,z:(%f,%f) rot:(%f) RIGHT!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
 		}
 		else if (mPlayers[i].input.input == UserInputState::FIRE)
 		{
 			printf("port:%d x,z:(%f,%f) rot:(%f) SHOOOOOT!!!!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
 
-			glm::vec4 dir = (glm::mat4(glm::quat(glm::radians(glm::vec3(0, mPlayers[i].state->rot, 0)))) * glm::vec4(0, 0, 1, 1.0f));
 
 			// Check that bullet is loaded and not shot
-			if (gs.bullets[i].state == BulletState::LOADED) 
+			if (gs.bullets[i].state == BulletState::LOADED)
 			{
+				glm::vec4 dir = MatRotation(mPlayers[i].state->rot) * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
 				ShootBullet(gs.bullets[i], mPlayers[i].state, dir);
 				//mBullets[i].state = &gs.bullets[i];
 				mBullets[i].timeSinceShot = 0.0f;
-			}		
+			}
 
 		}
 	}
 }
 
-void Server::UpdateBullets(double timePassed) 
+void Server::UpdateBullets(void)
 {
-	for (unsigned int i = 0; i < numPlayersConnected; i++) 
+	for (unsigned int i = 0; i < numPlayersConnected; i++)
 	{
 		// Check if time limit for bullet has expired
-		if (mBullets[i].timeSinceShot >= totalBulletTime) {
+		if (mBullets[i].timeSinceShot >= totalBulletTime)
+		{
 			gs.bullets[i].state = BulletState::LOADED;
 			mBullets[i].timeSinceShot = 0;
 		}
@@ -295,12 +346,12 @@ void Server::UpdateBullets(double timePassed)
 		// Update the position of a shot bullet
 		if (gs.bullets[i].state == BulletState::SHOT)
 		{
-			gs.bullets[i].posX += gs.bullets[i].velX;
-			gs.bullets[i].posZ += gs.bullets[i].velZ;
+			gs.bullets[i].posX += gs.bullets[i].velX * elapsed_secs_since_update;
+			gs.bullets[i].posZ += gs.bullets[i].velZ * elapsed_secs_since_update;
 		}
 
 		// Time moves ever onwards...
-		mBullets[i].timeSinceShot += timePassed;
+		mBullets[i].timeSinceShot += elapsed_secs_since_update;
 	}
 }
 
@@ -336,4 +387,23 @@ void Server::BroadcastUpdate(void)
 	}
 
 
+}
+
+void Server::CollisionCheck(void)
+{
+	for (size_t i = 0; i < gs.bullets.size(); i++)
+	{
+		if (gs.bullets[i].state == BulletState::LOADED)
+			continue;
+
+
+		for (size_t x = 0; x < gs.players.size(); x++)
+		{
+
+			if (BulletShipCollision(gs.players[x].posX, gs.players[x].posZ, gs.players[x].rot, gs.bullets[i].posX, gs.bullets[i].posZ))
+			{
+				printf("hit!\n");
+			}
+		}
+	}
 }

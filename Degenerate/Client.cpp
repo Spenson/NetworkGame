@@ -83,6 +83,11 @@ void Client::Send(UserInputState i)
 	printf("Send: %s\n", std::to_string(i.input).c_str());
 }
 
+int Client::GetId()
+{
+	return m_gs->id;
+}
+
 void Client::getGameState(GameSceneState* &gs)
 {
 	gs = m_gs;

@@ -30,7 +30,7 @@ public:
 	bool Update(void);
 
 	void Send(UserInputState i);
-
+	int GetId();
 	void getGameState(GameSceneState* &gs);
 
 	//void SetPosition(int id, float& x, float& y);

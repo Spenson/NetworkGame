@@ -133,7 +133,7 @@ void TestLoad(cVAOManager* pTheVAOManager, cModelLoader* pTheModelLoader, GLuint
 	ship->debugColour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
 	ship->setOrientation(glm::vec3(0.0f, 0.0f, 0.0f));
 	ship->positionXYZ = glm::vec3(0.0f, 0.0f, 0.0f);
-	ship->scale = 5.f;
+	ship->scale = 1.f;
 	ship->meshName = "Ship";
 	ship->useDiffuse = true;
 	ship->isVisible = false;
@@ -148,7 +148,7 @@ void TestLoad(cVAOManager* pTheVAOManager, cModelLoader* pTheModelLoader, GLuint
 	ship->debugColour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
 	ship->setOrientation(glm::vec3(0.0f, 0.0f, 0.0f));
 	ship->positionXYZ = glm::vec3(0.0f, 0.0f, 0.0f);
-	ship->scale = 5.f;
+	ship->scale = 1.f;
 	ship->meshName = "Ship";
 	ship->useDiffuse = true;
 	ship->isVisible = false;
@@ -162,7 +162,7 @@ void TestLoad(cVAOManager* pTheVAOManager, cModelLoader* pTheModelLoader, GLuint
 	ship->debugColour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
 	ship->setOrientation(glm::vec3(0.0f, 0.0f, 0.0f));
 	ship->positionXYZ = glm::vec3(0.0f, 0.0f, 0.0f);
-	ship->scale = 5.f;
+	ship->scale = 1.f;
 	ship->meshName = "Ship";
 	ship->useDiffuse = true;
 	ship->isVisible = false;
@@ -176,7 +176,7 @@ void TestLoad(cVAOManager* pTheVAOManager, cModelLoader* pTheModelLoader, GLuint
 	ship->debugColour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
 	ship->setOrientation(glm::vec3(0.0f, 0.0f, 0.0f));
 	ship->positionXYZ = glm::vec3(0.0f, 0.0f, 0.0f);
-	ship->scale = 5.f;
+	ship->scale = 1.f;
 	ship->meshName = "Ship";
 	ship->useDiffuse = true;
 	ship->isVisible = false;

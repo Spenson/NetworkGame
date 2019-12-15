@@ -44,7 +44,10 @@ extern glm::vec2 textOffest;
 
 
 Client g_client;
-
+glm::vec3 Vec2ToVec3(glm::vec2 v)
+{
+	return glm::vec3(v.x, 0.0f, v.y);
+}
 
 int main(void)
 {
@@ -146,13 +149,13 @@ int main(void)
 
 	double lastTime = glfwGetTime();
 
-	//cGameObject* collisionShpere = new cGameObject();
-	//collisionShpere->debugColour = glm::vec4(0.8f, 0.2f, 0.2f, 1.0f);
-	//collisionShpere->doNotLight = true;
-	//collisionShpere->meshName = "sphere_lowres";
-	//collisionShpere->friendlyName = "collision";
-	//collisionShpere->scale = 0.5f;
-	//collisionShpere->useDiffuse = true;
+	cGameObject* collisionShpere = new cGameObject();
+	collisionShpere->debugColour = glm::vec4(0.8f, 0.2f, 0.2f, 1.0f);
+	collisionShpere->doNotLight = true;
+	collisionShpere->meshName = "sphere_lowres";
+	collisionShpere->friendlyName = "collision";
+	collisionShpere->scale = 0.5f;
+	collisionShpere->useDiffuse = true;
 
 
 
@@ -236,6 +239,7 @@ int main(void)
 	tpc.SetPositionRelitiveToObject(glm::vec3(0.0f, 10.0f, -50.0f));
 	tpc.SetTargetRelitiveToObject(glm::vec3(0.0f, 0.0f, 0.0f));
 
+	//tpc.SetPositionRelitiveToObject(glm::vec3(0.0f, 50.0f, -0.1f));
 
 	::g_client.CreateSocket("127.0.0.1", 5150);
 
@@ -262,8 +266,8 @@ int main(void)
 			glm::vec3 ObjB = ::g_vec_pGameObjects[index + 1]->positionXYZ;
 
 			//if (glm::distance(ObjA, ::g_pFlyCamera->eye) < glm::distance(ObjB, ::g_pFlyCamera->eye))
-			///*if (lockToShip)
-			//{
+			/*if (lockToShip)
+			{
 			if (glm::distance(ObjA, tpc.Position()) < glm::distance(ObjB, tpc.Position()) && ::g_vec_pGameObjects[index]->friendlyName != "Ship")
 				std::swap(::g_vec_pGameObjects[index], ::g_vec_pGameObjects[index + 1]);
 			//}
@@ -359,8 +363,6 @@ int main(void)
 
 
 
-
-
 		//pFindObjectByFriendlyName("Ship")->positionXYZ.x += 0.51f;
 		//cGameObject* pObject = pFindObjectByFriendlyName("Ship");
 
@@ -378,12 +380,6 @@ int main(void)
 		//{
 		//	g_ParentCommandGroup->Update(deltaTime);
 		//}
-
-
-
-
-
-
 
 
 

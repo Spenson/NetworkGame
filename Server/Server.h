@@ -26,8 +26,9 @@ private:
 	void SetNonBlocking(SOCKET socket);
 	void ReadData(void);
 
+	void CollisionCheck(void);
 	void UpdatePlayers(void);
-	void UpdateBullets(double timePassed);
+	void UpdateBullets(void);
 	void BroadcastUpdate(void);
 
 	bool mIsRunning;
