@@ -30,7 +30,7 @@
 cFlyCamera* g_pFlyCamera = NULL;
 cBasicTextureManager* g_pTextureManager = NULL;
 
-bool lockToShip = true;
+bool ISALIVE = true;
 
 bool bLightDebugSheresOn = false;
 
@@ -229,10 +229,10 @@ int main(void)
 
 							//std::vector<glm::vec3> todraw;
 
-							//::g_pFreeCamera->SetPosition(glm::vec3(-250,150,250));
-							//::g_pFreeCamera->Pitch(20 * -18);
-							//::g_pFreeCamera->Yaw(20 * -140);
-							//std::cout << ::g_pFreeCamera->Yaw() << std::endl;
+	::g_pFreeCamera->SetPosition(glm::vec3(0, 200, -100));
+	::g_pFreeCamera->Pitch(20 * -40);
+	//::g_pFreeCamera->Yaw(20 * -140);
+	//std::cout << ::g_pFreeCamera->Yaw() << std::endl;
 
 	ThirdPersonCamera tpc;
 	tpc.SetPlayerObject(pFindObjectByFriendlyName("Ship1"));
@@ -266,16 +266,16 @@ int main(void)
 			glm::vec3 ObjB = ::g_vec_pGameObjects[index + 1]->positionXYZ;
 
 			//if (glm::distance(ObjA, ::g_pFlyCamera->eye) < glm::distance(ObjB, ::g_pFlyCamera->eye))
-			/*if (lockToShip)
+			if (ISALIVE)
 			{
-			if (glm::distance(ObjA, tpc.Position()) < glm::distance(ObjB, tpc.Position()) && ::g_vec_pGameObjects[index]->friendlyName != "Ship")
-				std::swap(::g_vec_pGameObjects[index], ::g_vec_pGameObjects[index + 1]);
-			//}
-			//else
-			//{*/
-			//	if (glm::distance(ObjA, ::g_pFreeCamera->GetPosition()) < glm::distance(ObjB, ::g_pFreeCamera->GetPosition()))
-			//		std::swap(::g_vec_pGameObjects[index], ::g_vec_pGameObjects[index + 1]);
-			//}
+				if (glm::distance(ObjA, tpc.Position()) < glm::distance(ObjB, tpc.Position()))
+					std::swap(::g_vec_pGameObjects[index], ::g_vec_pGameObjects[index + 1]);
+			}
+			else
+			{
+				if (glm::distance(ObjA, ::g_pFreeCamera->GetPosition()) < glm::distance(ObjB, ::g_pFreeCamera->GetPosition()))
+					std::swap(::g_vec_pGameObjects[index], ::g_vec_pGameObjects[index + 1]);
+			}
 		}// for (unsigned int index
 
 
@@ -301,13 +301,14 @@ int main(void)
 
 		//Frame Rate in title bar
 		std::stringstream ssTitle;
-		ssTitle << "Degenerate | " << 1.0 / avgDeltaTimeThingy.getAverage() << " (" << 1.0 / deltaTime << " | " << deltaTime << ")"
-			<< " Pos: (" << pFindObjectByFriendlyName("Ship2")->positionXYZ.x << ", "
-			<< pFindObjectByFriendlyName("Ship2")->positionXYZ.y << ", "
-			<< pFindObjectByFriendlyName("Ship2")->positionXYZ.z << ")"
-			/*<< " Rot: (" << glm::degrees(pFindObjectByFriendlyName("Ship")->getEulerAngle().x) << ", "
-			<< glm::degrees(pFindObjectByFriendlyName("Ship")->getEulerAngle().y) << ", "
-			<< glm::degrees(pFindObjectByFriendlyName("Ship")->getEulerAngle().z) << ")"*/;
+		ssTitle << "StarDog";
+		//ssTitle << "Degenerate | " << 1.0 / avgDeltaTimeThingy.getAverage() << " (" << 1.0 / deltaTime << " | " << deltaTime << ")"
+		//	<< " Pos: (" << pFindObjectByFriendlyName("Ship2")->positionXYZ.x << ", "
+		//	<< pFindObjectByFriendlyName("Ship2")->positionXYZ.y << ", "
+		//	<< pFindObjectByFriendlyName("Ship2")->positionXYZ.z << ")"
+		//	/*<< " Rot: (" << glm::degrees(pFindObjectByFriendlyName("Ship")->getEulerAngle().x) << ", "
+		//	<< glm::degrees(pFindObjectByFriendlyName("Ship")->getEulerAngle().y) << ", "
+		//	<< glm::degrees(pFindObjectByFriendlyName("Ship")->getEulerAngle().z) << ")"*/;
 		glfwSetWindowTitle(window, ssTitle.str().c_str());
 
 
@@ -317,15 +318,7 @@ int main(void)
 
 
 
-		///*if (lockToShip)
-		//{
 
-		//}
-		//else
-		//{*/
-		//	ProcessAsyncKeys(window);
-		//	ProcessAsyncMouse(window);
-		//}
 		glUseProgram(UniformManager::shaderProgID);
 
 		float ratio;
@@ -338,10 +331,10 @@ int main(void)
 		p = glm::perspective(0.6f, ratio, 0.5f, 10000.0f);
 		v = glm::mat4(1.0f);
 		//v = glm::lookAt(::g_pFlyCamera->eye, ::g_pFlyCamera->getAtInWorldSpace(), ::g_pFlyCamera->getUpVector());
-		///*if (lockToShip)
-		v = glm::lookAt(tpc.Position(), tpc.Target(), tpc.UpVector());
-		//else*/
-			//v = glm::lookAt(::g_pFreeCamera->GetPosition(), ::g_pFreeCamera->GetTarget(), ::g_pFreeCamera->GetUpVector());
+		if (ISALIVE)
+			v = glm::lookAt(tpc.Position(), tpc.Target(), tpc.UpVector());
+		else
+			v = glm::lookAt(::g_pFreeCamera->GetPosition(), ::g_pFreeCamera->GetTarget(), ::g_pFreeCamera->GetUpVector());
 
 		glViewport(0, 0, width, height);
 
@@ -349,10 +342,10 @@ int main(void)
 
 
 		g_pLightManager->PassLightsToShader();
-		///*if (lockToShip)
-		glUniform4f(UniformManager::eyeLocation_UL, tpc.Position().x, tpc.Position().y, tpc.Position().z, 1.0f);
-		//else*/
-		//	glUniform4f(UniformManager::eyeLocation_UL, ::g_pFreeCamera->GetPosition().x, ::g_pFreeCamera->GetPosition().y, ::g_pFreeCamera->GetPosition().z, 1.0f);
+		if (ISALIVE)
+			glUniform4f(UniformManager::eyeLocation_UL, tpc.Position().x, tpc.Position().y, tpc.Position().z, 1.0f);
+		else
+			glUniform4f(UniformManager::eyeLocation_UL, ::g_pFreeCamera->GetPosition().x, ::g_pFreeCamera->GetPosition().y, ::g_pFreeCamera->GetPosition().z, 1.0f);
 
 
 		glUniformMatrix4fv(UniformManager::matView_UL, 1, GL_FALSE, glm::value_ptr(v));
@@ -428,7 +421,21 @@ int main(void)
 		//		} // if (!wr->vecTriangles.empty())
 		//	} // if (WorldRegion::mapRegions.find(WorldRegion::GenerateID(point)) != WorldRegion::mapRegions.end())
 		//} // for (size_t i = 0; i < points.size(); i++)
-		ShipControls(window, deltaTime);
+
+
+
+		if (ISALIVE)
+		{
+			ShipControls(window, deltaTime);
+		}
+		else
+		{
+			ProcessAsyncKeys(window);
+			ProcessAsyncMouse(window);
+		}
+
+
+
 		if (::g_client.Update())
 		{
 			GameSceneState* temp = nullptr;
@@ -436,6 +443,10 @@ int main(void)
 			tpc.SetPlayerObject(pFindObjectByFriendlyName("Ship" + std::to_string(temp->id + 1)));
 			for (int i = 0; i < temp->players.size(); i++)
 			{
+				if(i == temp->id)
+					ISALIVE = temp->players[i].state == PlayerState::ALIVE;
+
+
 				PlayerState p = temp->players[i];
 				cGameObject* object = pFindObjectByFriendlyName("Ship" + std::to_string(i + 1));
 				object->positionXYZ.x = p.posX;
@@ -444,11 +455,20 @@ int main(void)
 				object->velocity.z = p.velZ;
 				object->isVisible = true;
 				object->setOrientation(glm::vec3(0.0f, p.rot, 0.0f));
+
+				if (temp->players[i].state == PlayerState::DEAD)
+				{
+					object->diffuseColour.a = 0.2;
+				}
+				else
+				{
+					object->diffuseColour.a = 1.0;
+				}
 			}
 
-			for (int i = 0; i < temp->bullets.size(); i++) 			
+			for (int i = 0; i < temp->bullets.size(); i++)
 			{
-				BulletState b = temp->bullets[i];				
+				BulletState b = temp->bullets[i];
 				cGameObject* object = pFindObjectByFriendlyName("Bullet" + std::to_string(i + 1));
 				object->positionXYZ.x = b.posX;
 				object->positionXYZ.z = b.posZ;
@@ -457,7 +477,7 @@ int main(void)
 				object->isVisible = true;
 				object->scale = 0.5f;
 
-				if (b.state == BulletState::LOADED) 					
+				if (b.state == BulletState::LOADED)
 				{
 					object->isVisible = false;
 				}
@@ -474,10 +494,10 @@ int main(void)
 
 
 		cGameObject* pSkyBox = pFindObjectByFriendlyName("skybox");
-		///*if (lockToShip)
-		pSkyBox->positionXYZ = tpc.Position();
-		//else*/
-		//	pSkyBox->positionXYZ = ::g_pFreeCamera->GetPosition();// ::g_pFlyCamera->eye;
+		if (ISALIVE)
+			pSkyBox->positionXYZ = tpc.Position();
+		else
+			pSkyBox->positionXYZ = ::g_pFreeCamera->GetPosition();// ::g_pFlyCamera->eye;
 
 		DrawObject(glm::mat4(1.0f), pSkyBox, UniformManager::shaderProgID, pTheVAOManager);
 
