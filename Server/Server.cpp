@@ -114,7 +114,7 @@ Player* GetPlayerByPort(unsigned short port, struct sockaddr_in si_other)
 	{
 		if (mPlayers[i].port == port)
 		{
-			printf("port:%d x,z:(%f,%f) rot:(%f) Get Player\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
+			//printf("port:%d x,z:(%f,%f) rot:(%f) Get Player\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
 			return &(mPlayers[i]);
 		}
 	}
@@ -253,7 +253,6 @@ void Server::ReadData(void)
 	{
 		if (WSAGetLastError() == WSAEWOULDBLOCK)
 		{
-			// printf(".");		// Quick test
 			return;
 		}
 		PrintWSAError();
@@ -270,7 +269,7 @@ void Server::ReadData(void)
 	Player* player = GetPlayerByPort(port, si_other);
 	player->input.Deserialize(buffer);
 
-	printf("%d : %hu received { %d }\n", (int)mListenSocket, port, (int)player->input.input);
+	//printf("%d : %hu received { %d }\n", (int)mListenSocket, port, (int)player->input.input);
 }
 
 void Server::UpdatePlayers(void)
@@ -280,7 +279,6 @@ void Server::UpdatePlayers(void)
 		// Only shoot if player is alive
 		if (mPlayers[i].state->state == PlayerState::ALIVE)
 		{
-			//printf("Index:%d player:%d input:%d state:%d\n", i, mPlayers[i].port, mPlayers[i].input.input, mPlayers[i].state->state);
 			if (mPlayers[i].input.input == UserInputState::FORWARD)
 			{
 				glm::vec4 dir = MatRotation(mPlayers[i].state->rot) * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
@@ -319,14 +317,16 @@ void Server::UpdatePlayers(void)
 			}
 			else if (mPlayers[i].input.input == UserInputState::FIRE)
 			{
-				printf("port:%d x,z:(%f,%f) rot:(%f) SHOOOOOT!!!!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
-
 				// Check that bullet is loaded and not shot
 				if (gs.bullets[i].state == BulletState::LOADED)
 				{
+					printf("port:%d x,z:(%f,%f) rot:(%f) SHOOOOOT!!!!\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
+
 					glm::vec4 dir = MatRotation(mPlayers[i].state->rot) * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
 					ShootBullet(gs.bullets[i], mPlayers[i].state, dir);
 					mBullets[i].timeSinceShot = 0.0f;
+
+					mPlayers[i].input.input = (UserInputState::Input) - 1;
 				}
 			}
 		}
@@ -336,6 +336,7 @@ void Server::UpdatePlayers(void)
 			{
 				// If dead, then this will respawn them
 				mPlayers[i].state->state = PlayerState::ALIVE;
+				mPlayers[i].input.input = (UserInputState::Input) - 1;
 			}
 		}
 	}
@@ -366,32 +367,20 @@ void Server::UpdateBullets(void)
 
 void Server::BroadcastUpdate(void)
 {
-	// create our data to send, then send the same data to all players
 	const int DEFAULT_BUFLEN = 512;
-	//char* buffer = '\0';
-	//memset(buffer, '\0', DEFAULT_BUFLEN);
 
-	//memcpy(&(buffer[0]), &numPlayersConnected, sizeof(unsigned int));
-
-
-
-	//for (unsigned int i = 0; i < numPlayersConnected; i++)
-	//{
-	//	gs.players.push_back(mPlayers[i].state);
-	//	printf("%f\n", mPlayers[i].state.posZ);
-	//}
 	std::vector<uint8_t> buff;
 	gs.Serialize(buff);
 
 
 
+	printf("BROADCAST UPDATE\n");
 	for (unsigned int i = 0; i < numPlayersConnected; i++)
 	{
 		buff[0] = i;
 		buff[1] = i >> 8;
 		buff[2] = i >> 16;
 		buff[3] = i >> 24;
-		printf("port:%d x,z:(%f,%f) rot:(%f) Broadcast\n", mPlayers[i].port, mPlayers[i].state->posX, mPlayers[i].state->posZ, mPlayers[i].state->rot);
 		int result = sendto(mListenSocket, (char*)&buff[0], buff.size(), 0, (struct sockaddr*) & (mPlayers[i].si_other), sizeof(mPlayers[i].si_other));
 	}
 
@@ -411,7 +400,7 @@ void Server::CollisionCheck(void)
 			{
 				if (gs.players[x].state == PlayerState::ALIVE)
 				{
-					printf("hit!\n");
+					printf("port:%d was HIT!\n", mPlayers[x].port);
 					// This ship is now mega dead
 					gs.players[x].state = PlayerState::DEAD;
 

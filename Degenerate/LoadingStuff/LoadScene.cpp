@@ -171,7 +171,7 @@ void TestLoad(cVAOManager* pTheVAOManager, cModelLoader* pTheModelLoader, GLuint
 	vec_pGameObjects.push_back(ship);
 
 	ship = new cGameObject();
-	ship->diffuseColour = glm::vec4(5.0f, 5.0f, 0.0f, 1.0f);
+	ship->diffuseColour = glm::vec4(1.0f, 1.0f, 0.0f, 1.0f);
 	ship->friendlyName = "Ship4";
 	ship->debugColour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
 	ship->setOrientation(glm::vec3(0.0f, 0.0f, 0.0f));

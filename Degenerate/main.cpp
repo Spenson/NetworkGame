@@ -194,7 +194,7 @@ int main(void)
 
 		//Frame Rate in title bar
 		std::stringstream ssTitle;
-		ssTitle << "StarDog";
+		ssTitle << "StarDog | " << 1.0 / avgDeltaTimeThingy.getAverage();
 		glfwSetWindowTitle(window, ssTitle.str().c_str());
 
 
